@@ -4,6 +4,7 @@ import Express from 'express'
 import * as http from 'http'
 import { log } from 'console'
 import { Server } from 'socket.io'
+import SSH from 'simple-ssh'
 
 const wss = http.createServer(Express())
 
@@ -38,6 +39,29 @@ app.on('connection', (ws) => {
         ws.emit('woken', 'woken')
       }
     })
+  })
+
+  ws.on('off', (raw) => {
+    const parsed = JSON.parse(raw.toString())
+    const ip = parsed.ip
+    const pass = parsed.pass
+    const user = parsed.user
+    const command = parsed.command
+
+    const ssh = new SSH({
+      host: ip,
+      user: user,
+      pass: pass,
+    })
+
+    ssh
+      .exec(command, {
+        out: function (stdout) {
+          console.log(stdout)
+        },
+      })
+      .start()
+      .end()
   })
 
   ws.on('close', () => {
