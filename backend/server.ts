@@ -41,7 +41,7 @@ app.on('connection', (ws) => {
     })
   })
 
-  ws.on('off', (raw) => {
+  ws.on('off', async (raw) => {
     const parsed = JSON.parse(raw.toString())
     const ip = parsed.ip
     const pass = parsed.pass
@@ -53,20 +53,12 @@ app.on('connection', (ws) => {
       user: user,
       pass: pass,
     })
-
-    ssh
-      .exec(command, {
-        out: function (stdout) {
-          console.log(stdout)
-        },
-      })
-      .start()
-      .end()
+    ssh.exec(command).start()
   })
+})
 
-  ws.on('close', () => {
-    log('Client disconnected')
-  })
+app.on('close', () => {
+  log('✔️ Server closed')
 })
 
 wss.listen(8080, () => {
