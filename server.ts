@@ -37,3 +37,11 @@ ping.sys.probe('ujep.cz', (isAlive) => {
   }
 })
 console.log('Hello from server.ts')
+
+wol.wake('04:42:1a:ed:7a:0b', (err) => {
+  if (err) {
+    log(err)
+  } else {
+    log('WOL sent')
+  }
+})
