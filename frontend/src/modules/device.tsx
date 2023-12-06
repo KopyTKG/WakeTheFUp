@@ -52,13 +52,13 @@ export default function Device({ server, ip, mac, device, pass, user, command }:
   }
 
   const content = (
-    <PopoverContent className="dark bg-background text-foreground px-4 py-2">
+    <PopoverContent className="dark bg-background text-foreground px-6 py-4 border border-white">
       {(titleProps) => (
         <div className="flex flex-col items-center">
           <h1 className="text-3xl font-bold">Are you sure?</h1>
           <h2 {...titleProps} className="text-xl wrap w-48 text-center">
-            Do you really want to {alive ? "turn off" : "turn on"}{" "}
-            <span className="font-bold">{device}</span>:
+            Do you really want to {alive ? "turn off" : "turn on"}
+            <span className="font-bold">  {device}</span>:
           </h2>
           <div className="flex flex-row gap-3">
             <Button
@@ -98,13 +98,8 @@ export default function Device({ server, ip, mac, device, pass, user, command }:
           </PopoverTrigger>
           {content}
         </Popover>
-
         <div>
           <h2 className="text-xl font-bold">{device}</h2>
-          <div className="text-md font-bold">
-            <div className={"w-3 h-3 inline-block rounded-full mr-2" + (alive ? " bg-green-500" : " bg-red-500")}></div>
-            {alive ? "Online" : "Offline"}
-          </div>
           <p className="text-sm">{ip}</p>
           <p className="text-sm">{mac}</p>
         </div>
